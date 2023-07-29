@@ -25,12 +25,7 @@ exports.view = (req,res)=>{
             if (err) throw err;
     
             let removedUser = req.query.removed;
-            res.render('home', {
-              foodData: foodData,
-              skinData: skinData,
-              electronicsData: electronicsData,
-              removedUser
-            });
+            res.render('home', {foodData: foodData,skinData: skinData,electronicsData: electronicsData,removedUser});
           });
         });
       });
