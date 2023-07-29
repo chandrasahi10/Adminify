@@ -15,8 +15,11 @@
   "dependencies": {
     "body-parser": "^1.20.2",
     "dotenv": "^16.3.1",
+    "ember": "^1.1.1",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.0",
-    "mysql": "^2.18.1"
+    "helpers": "^0.0.6",
+    "mysql": "^2.18.1",
+    "truth": "^2.1.2"
   }
 }

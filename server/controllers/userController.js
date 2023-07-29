@@ -15,42 +15,28 @@ exports.view = (req,res)=>{
             throw err;
         };
         console.log('Connected as ID'+ connection.threadId);
-        connection.query('SELECT * FROM electronics',(err,rows)=>{
-               connection.release();
+    connection.query('SELECT * FROM Users WHERE category = "Food"', (err, foodData) => {
+        if (err) throw err;
+    
+        connection.query('SELECT * FROM Users WHERE category = "Skin-Care"', (err, skinData) => {
+          if (err) throw err;
 
-               if(!err){
-                let removedUser = req.query.removed;
-                res.render('Electronics',{rows,removedUser});
-               }else{
-                console.log(err);
-               }
-
-               console.log('The data from user table: \n', rows)
+          connection.query('SELECT * FROM Users WHERE category = "Electronics"', (err, electronicsData) => {
+            if (err) throw err;
+    
+            let removedUser = req.query.removed;
+            res.render('home', {
+              foodData: foodData,
+              skinData: skinData,
+              electronicsData: electronicsData,
+              removedUser
+            });
+          });
         });
+      });
     });
 };
 
-exports.find = (req,res) => {
-    pool.getConnection((err, connection)=>{
-        if(err){
-            throw err;
-        };
-        console.log('Connected as ID'+ connection.threadId);
-
-        let searchTerm =  req.body.search;
-        connection.query('SELECT * FROM electronics WHERE Name like ?',['%'+searchTerm+'%'],(err,rows)=>{
-               connection.release();
-
-               if(!err){
-                res.render('Electronics',{rows});
-               }else{
-                console.log(err);
-               }
-
-               console.log('The data from user table: \n', rows)
-        });
-    });
-};
 
 exports.form = (req,res) => {
     res.render('add-user');
@@ -64,11 +50,11 @@ exports.create= (req,res) => {
             throw err;
         };
         console.log('Connected as ID'+ connection.threadId);
-        connection.query('INSERT INTO electronics SET Name = ?, Item = ?,Category = ?, Expense = ?',[Name,Item,Category,Expense],(err,rows)=>{
+        connection.query('INSERT INTO Users SET Name = ?, Item = ?,Category = ?, Expense = ?',[Name,Item,Category,Expense],(err,rows)=>{
                connection.release();
 
                if(!err){
-                res.render('add-user', { alert: `New Expense Added Successfully for ${Name}`});
+                res.render('add-user', { alert: `New Item Added Successfully for ${Name}`});
                }else{
                 console.log(err);
                }
@@ -84,7 +70,7 @@ exports.edit = (req,res) => {
             throw err;
         };
         console.log('Connected as ID'+ connection.threadId);
-        connection.query('SELECT * FROM electronics WHERE id = ?',[req.params.Id],(err,rows)=>{
+        connection.query('SELECT * FROM Users WHERE id = ?',[req.params.Id],(err,rows)=>{
                connection.release();
 
                if(!err){
@@ -106,7 +92,7 @@ exports.update = (req,res) => {
             throw err;
         };
         console.log('Connected as ID'+ connection.threadId);
-        connection.query('UPDATE electronics SET Name = ?, Item = ?, Category = ?, Expense = ? WHERE id = ?',[Name,Item,Category,Expense,req.params.Id],(err,rows)=>{
+        connection.query('UPDATE Users SET Name = ?, Item = ?, Category = ?, Expense = ? WHERE id = ?',[Name,Item,Category,Expense,req.params.Id],(err,rows)=>{
                connection.release();
 
                if(!err){
@@ -116,11 +102,11 @@ exports.update = (req,res) => {
                         throw err;
                     };
                     console.log('Connected as ID'+ connection.threadId);
-                    connection.query('SELECT * FROM electronics WHERE Id = ?',[req.params.Id],(err,rows)=>{
+                    connection.query('SELECT * FROM Users WHERE Id = ?',[req.params.Id],(err,rows)=>{
                            connection.release();
             
                            if(!err){
-                            res.render('edit-user',{rows, alert: `${Name}'s Expense Has Been Updated Successfully.`});
+                            res.render('edit-user',{rows, alert: `${Name}'s Item Has Been Updated Successfully.`});
                            }else{
                             console.log(err);
                            }
@@ -144,12 +130,12 @@ exports.delete = (req,res) => {
             throw err;
         };
         console.log('Connected as ID'+ connection.threadId);
-        connection.query('DELETE FROM electronics WHERE id = ?',[req.params.Id],(err,rows)=>{
+        connection.query('DELETE FROM Users WHERE id = ?',[req.params.Id],(err,rows)=>{
                connection.release();
 
                if(!err){
-                let removedUser = encodeURIComponent('Expense Deleted Successfully.')
-                res.redirect('/elec?removed='+removedUser);
+                let removedUser = encodeURIComponent('Item Deleted Successfully.')
+                res.redirect('/?removed='+removedUser);
                }else{
                 console.log(err);
                }

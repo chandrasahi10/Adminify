@@ -13,7 +13,7 @@
 
 <div class="col-6">
 <select value="{{this.Category}}" name="Category" style="height: 57px;" class="form-select" aria-label="Default select example" >
-  z
+  {{#if this.Category}}  
   <option selected >{{this.Category}}</option>
   {{else}}
   <option selected >Category</option>
@@ -32,5 +32,5 @@
 
 
 <div class="col-12 d-grid">
-    <button class="btn btn-primary" type="submit">Add New Expense</button>
+    <button class="btn btn-primary" type="submit">Add New Item</button>
 </div>
