@@ -1,4 +1,4 @@
-# Seller Admin Page 2.0
+# Adminify
 The project at hand draws its inspiration from a previously developed seller's admin page, aiming to enhance and modernize the functionality using cutting-edge technologies. Leveraging Node.js, Express.js, and Express Handlebars, this endeavor seeks to implement and improve several features that were present in the old seller's admin page. The core functionalities focus on taking user inputs, organizing and storing items based on their categories in a user-friendly frontend, enabling users to edit or delete existing entries. All data will be persistently stored in a MySQL database, utilizing a single database table for efficient data management.
 
 ## Features
